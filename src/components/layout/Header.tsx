@@ -18,13 +18,21 @@ export default function Header() {
             </p>
           </div>
         </Link>
-        <Link
-          href="/admin"
-          className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-indigo-50"
-        >
-          <ShieldCheck className="w-4 h-4" />
-          <span className="hidden sm:inline">관리자</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/feedback"
+            className="text-xs text-gray-500 hover:text-blue-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-blue-50"
+          >
+            💡 <span className="hidden sm:inline">건의하기</span>
+          </Link>
+          <Link
+            href="/admin"
+            className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-indigo-50"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span className="hidden sm:inline">관리자</span>
+          </Link>
+        </div>
       </div>
     </header>
   )

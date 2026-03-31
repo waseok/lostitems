@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ShieldCheck, Loader2, Eye, EyeOff } from "lucide-react"
+import { ShieldCheck, Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react"
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -38,6 +39,10 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
+        <Link href="/" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 mb-4 transition-colors">
+          <ArrowLeft className="w-4 h-4" />
+          와석초 분실물 보관함으로 돌아가기
+        </Link>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-4">

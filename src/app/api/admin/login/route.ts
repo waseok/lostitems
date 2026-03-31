@@ -4,7 +4,8 @@ import { createAdminSession, setAdminCookie } from "@/lib/auth"
 export async function POST(request: NextRequest) {
   const { password } = await request.json()
 
-  if (!password || password !== process.env.ADMIN_PASSWORD) {
+  const adminPassword = process.env.ADMIN_PASSWORD || "school1234"
+  if (!password || password !== adminPassword) {
     return Response.json({ error: "비밀번호가 올바르지 않습니다." }, { status: 401 })
   }
 

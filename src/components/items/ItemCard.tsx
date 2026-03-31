@@ -1,9 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Calendar } from "lucide-react"
-import { CATEGORY_LABELS, CATEGORY_EMOJIS, type LostItem } from "@/types"
-import { formatKoreanDate } from "@/lib/utils"
+import { CATEGORY_EMOJIS, type LostItem } from "@/types"
 
 interface ItemCardProps {
   item: LostItem
@@ -42,23 +40,10 @@ export default function ItemCard({ item }: ItemCardProps) {
       </div>
 
       {/* 정보 영역 */}
-      <div className="p-3">
-        <div className="mb-1.5">
-          <Badge variant="secondary" className="text-xs mb-1.5">
-            {CATEGORY_EMOJIS[item.category]} {CATEGORY_LABELS[item.category]}
-          </Badge>
-          <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-1">
-            {item.name}
-          </h3>
-        </div>
-        <div className="flex items-center gap-1 text-xs text-blue-600 font-medium mb-1">
-          <MapPin className="w-3 h-3 flex-shrink-0" />
-          <span className="line-clamp-1">{item.location}</span>
-        </div>
-        <div className="flex items-center gap-1 text-xs text-gray-400">
-          <Calendar className="w-3 h-3 flex-shrink-0" />
-          <span>{formatKoreanDate(item.found_date)}</span>
-        </div>
+      <div className="p-2.5">
+        <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 text-center">
+          {item.name}
+        </h3>
       </div>
     </Link>
   )

@@ -64,11 +64,34 @@ export default function ItemForm({ item }: ItemFormProps) {
 
   const watchCategory = watch("category")
 
+  async function compressImage(file: File): Promise<File> {
+    return new Promise((resolve) => {
+      const img = new window.Image()
+      img.onload = () => {
+        const MAX = 900
+        let { width, height } = img
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round(height * MAX / width); width = MAX }
+          else { width = Math.round(width * MAX / height); height = MAX }
+        }
+        const canvas = document.createElement("canvas")
+        canvas.width = width
+        canvas.height = height
+        canvas.getContext("2d")!.drawImage(img, 0, 0, width, height)
+        canvas.toBlob((blob) => {
+          resolve(blob ? new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" }) : file)
+        }, "image/jpeg", 0.82)
+      }
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
   async function handlePhotoUpload(file: File) {
     setUploading(true)
     try {
+      const compressed = await compressImage(file)
       const formData = new FormData()
-      formData.append("file", file)
+      formData.append("file", compressed)
       const res = await fetch("/api/upload", { method: "POST", body: formData })
       if (!res.ok) {
         const data = await res.json()

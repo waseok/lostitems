@@ -57,6 +57,48 @@ export type Database = {
         }
         Relationships: []
       }
+      suggestions: {
+        Row: {
+          id: string
+          grade: string
+          class_name: string
+          name: string
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          grade: string
+          class_name: string
+          name: string
+          content: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          grade?: string
+          class_name?: string
+          name?: string
+          content?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      daily_views: {
+        Row: {
+          date: string
+          count: number
+        }
+        Insert: {
+          date?: string
+          count?: number
+        }
+        Update: {
+          date?: string
+          count?: number
+        }
+        Relationships: []
+      }
     }
     Views: { [_ in never]: never }
     Functions: { [_ in never]: never }

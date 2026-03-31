@@ -3,7 +3,7 @@ import { SignJWT, jwtVerify } from "jose"
 
 const SESSION_COOKIE = "admin_session"
 const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SESSION_SECRET || "fallback-secret-change-in-production"
+  process.env.ADMIN_SESSION_SECRET ?? "lost-items-school-secret-2026-secure-key"
 )
 
 export async function createAdminSession(): Promise<string> {

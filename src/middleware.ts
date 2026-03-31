@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { jwtVerify } from "jose"
 
 const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SESSION_SECRET ?? "fallback-secret-change-in-production"
+  process.env.ADMIN_SESSION_SECRET ?? "lost-items-school-secret-2026-secure-key"
 )
 
 export async function middleware(request: NextRequest) {

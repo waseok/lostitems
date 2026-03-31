@@ -11,40 +11,60 @@ interface PageProps {
 }
 
 async function ItemsContent({ searchParams }: PageProps) {
-  const { q, category } = await searchParams
-  const supabase = await createClient()
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return (
+      <div className="text-center py-16 text-gray-500">
+        <p className="text-lg font-medium">서버 설정 오류</p>
+        <p className="text-sm mt-1">관리자에게 문의해주세요.</p>
+      </div>
+    )
+  }
 
-  let activeQuery = supabase
-    .from("lost_items")
-    .select("*")
-    .eq("status", "active")
-    .order("found_date", { ascending: false })
-    .order("created_at", { ascending: false })
+  try {
+    const { q, category } = await searchParams
+    const supabase = await createClient()
 
-  if (q) activeQuery = activeQuery.ilike("name", `%${q}%`)
-  if (category) activeQuery = activeQuery.eq("category", category as ItemCategory)
+    let activeQuery = supabase
+      .from("lost_items")
+      .select("*")
+      .eq("status", "active")
+      .order("found_date", { ascending: false })
+      .order("created_at", { ascending: false })
 
-  const { data: activeItems } = await activeQuery
+    if (q) activeQuery = activeQuery.ilike("name", `%${q}%`)
+    if (category) activeQuery = activeQuery.eq("category", category as ItemCategory)
 
-  const sixtyDaysAgo = new Date()
-  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60)
-  const { data: completedItems } = await supabase
-    .from("lost_items")
-    .select("*")
-    .eq("status", "completed")
-    .gte("completed_at", sixtyDaysAgo.toISOString())
-    .order("completed_at", { ascending: false })
-    .limit(50)
+    const { data: activeItems, error: activeError } = await activeQuery
+    if (activeError) throw activeError
 
-  return (
-    <>
-      <ItemGrid
-        items={(activeItems as LostItem[]) || []}
-        emptyMessage={q || category ? "검색 결과가 없습니다." : "현재 등록된 분실물이 없습니다."}
-      />
-      <CompletedSection items={(completedItems as LostItem[]) || []} />
-    </>
-  )
+    const sixtyDaysAgo = new Date()
+    sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60)
+    const { data: completedItems } = await supabase
+      .from("lost_items")
+      .select("*")
+      .eq("status", "completed")
+      .gte("completed_at", sixtyDaysAgo.toISOString())
+      .order("completed_at", { ascending: false })
+      .limit(50)
+
+    return (
+      <>
+        <ItemGrid
+          items={(activeItems as LostItem[]) || []}
+          emptyMessage={q || category ? "검색 결과가 없습니다." : "현재 등록된 분실물이 없습니다."}
+        />
+        <CompletedSection items={(completedItems as LostItem[]) || []} />
+      </>
+    )
+  } catch (error) {
+    console.error("[ItemsContent] 데이터 로드 오류:", error)
+    return (
+      <div className="text-center py-16 text-gray-500">
+        <p className="text-lg font-medium">데이터를 불러올 수 없습니다.</p>
+        <p className="text-sm mt-1">잠시 후 다시 시도해주세요.</p>
+      </div>
+    )
+  }
 }
 
 export default function HomePage({ searchParams }: PageProps) {

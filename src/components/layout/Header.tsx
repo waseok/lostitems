@@ -7,13 +7,13 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2.5">
           <span className="text-2xl">🔍</span>
           <div>
-            <p className="font-bold text-gray-900 leading-tight text-sm sm:text-base">
+            <p className="font-extrabold text-gray-900 leading-tight text-base sm:text-lg">
               와석초 분실물 보관함
             </p>
-            <p className="text-xs text-gray-500 leading-tight hidden sm:block">
+            <p className="text-xs font-medium text-gray-500 leading-tight hidden sm:block">
               와석초등학교 분실물 센터
             </p>
           </div>

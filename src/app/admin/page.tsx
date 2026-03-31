@@ -1,0 +1,33 @@
+import { createClient } from "@/lib/supabase/server"
+import AdminItemList from "@/components/admin/AdminItemList"
+import StatsDashboard from "@/components/admin/StatsDashboard"
+import type { LostItem } from "@/types"
+
+export default async function AdminPage() {
+  const supabase = await createClient()
+
+  const { data: allItems } = await supabase
+    .from("lost_items")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  const items = (allItems as LostItem[]) || []
+  const activeItems = items.filter((i) => i.status === "active")
+  const completedItems = items.filter((i) => i.status === "completed")
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">관리자 대시보드</h1>
+        <p className="text-sm text-gray-500 mt-1">분실물 현황을 확인하고 관리하세요.</p>
+      </div>
+
+      <StatsDashboard items={items} />
+
+      <AdminItemList
+        activeItems={activeItems}
+        completedItems={completedItems}
+      />
+    </div>
+  )
+}

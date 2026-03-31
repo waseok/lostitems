@@ -11,15 +11,6 @@ interface PageProps {
 }
 
 async function ItemsContent({ searchParams }: PageProps) {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    return (
-      <div className="text-center py-16 text-gray-500">
-        <p className="text-lg font-medium">서버 설정 오류</p>
-        <p className="text-sm mt-1">관리자에게 문의해주세요.</p>
-      </div>
-    )
-  }
-
   try {
     const { q, category } = await searchParams
     const supabase = await createClient()

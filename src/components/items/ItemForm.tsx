@@ -33,9 +33,10 @@ type FormValues = z.infer<typeof schema>
 
 interface ItemFormProps {
   item?: LostItem
+  redirectTo?: string
 }
 
-export default function ItemForm({ item }: ItemFormProps) {
+export default function ItemForm({ item, redirectTo = "/admin" }: ItemFormProps) {
   const router = useRouter()
   const isEdit = !!item
 
@@ -127,7 +128,7 @@ export default function ItemForm({ item }: ItemFormProps) {
         return
       }
       const data = await res.json()
-      router.push(isEdit ? `/admin` : `/admin`)
+      router.push(redirectTo)
       router.refresh()
     } finally {
       setSaving(false)

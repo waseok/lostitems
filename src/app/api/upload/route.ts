@@ -1,13 +1,7 @@
 import { NextRequest } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { verifyAdminSession } from "@/lib/auth"
 
 export async function POST(request: NextRequest) {
-  const isAdmin = await verifyAdminSession(request)
-  if (!isAdmin) {
-    return Response.json({ error: "권한이 없습니다." }, { status: 401 })
-  }
-
   const formData = await request.formData()
   const file = formData.get("file") as File | null
   if (!file) {

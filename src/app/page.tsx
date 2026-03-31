@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 import Header from "@/components/layout/Header"
 import ItemGrid from "@/components/items/ItemGrid"
@@ -63,11 +64,19 @@ export default function HomePage({ searchParams }: PageProps) {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main className="max-w-5xl mx-auto px-4 py-6">
-        <div className="mb-5">
-          <h1 className="text-xl font-bold text-gray-900">분실물 목록</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            물건을 찾으셨나요? 아래 목록에서 확인해보세요.
-          </p>
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">분실물 목록</h1>
+            <p className="text-sm text-gray-500 mt-0.5">
+              물건을 찾으셨나요? 아래 목록에서 확인해보세요.
+            </p>
+          </div>
+          <Link
+            href="/report"
+            className="flex-shrink-0 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
+          >
+            분실물 신고
+          </Link>
         </div>
 
         <div className="mb-5">

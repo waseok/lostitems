@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation"
 import { checkAdminSession } from "@/lib/auth"
 import AdminHeader from "@/components/layout/AdminHeader"
 
@@ -8,8 +7,10 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const isAdmin = await checkAdminSession()
+
   if (!isAdmin) {
-    redirect("/admin/login")
+    // 로그인 페이지: 헤더 없이 그대로 렌더
+    return <>{children}</>
   }
 
   return (

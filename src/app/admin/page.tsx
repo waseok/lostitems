@@ -12,6 +12,7 @@ export default async function AdminPage() {
     .order("created_at", { ascending: false })
 
   const items = (allItems as LostItem[]) || []
+  const pendingItems = items.filter((i) => i.status === "pending")
   const activeItems = items.filter((i) => i.status === "active")
   const completedItems = items.filter((i) => i.status === "completed")
 
@@ -25,6 +26,7 @@ export default async function AdminPage() {
       <StatsDashboard items={items} />
 
       <AdminItemList
+        pendingItems={pendingItems}
         activeItems={activeItems}
         completedItems={completedItems}
       />

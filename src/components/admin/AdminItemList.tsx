@@ -26,6 +26,7 @@ import { CATEGORY_LABELS, CATEGORY_EMOJIS, type LostItem } from "@/types"
 import { formatKoreanDate } from "@/lib/utils"
 
 interface AdminItemListProps {
+  pendingItems: LostItem[]
   activeItems: LostItem[]
   completedItems: LostItem[]
 }
@@ -86,6 +87,21 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
     }
   }
 
+  async function handleApprove() {
+    setLoading(true)
+    try {
+      const res = await fetch(`/api/items/${item.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "active" }),
+      })
+      if (!res.ok) { alert("승인 실패"); return }
+      onRefresh()
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <>
       <tr className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
@@ -123,46 +139,70 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
         </td>
         <td className="px-4 py-3">
           <div className="flex items-center gap-1.5">
-            <Link href={`/admin/items/${item.id}/edit`}>
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
-                <Edit2 className="w-3.5 h-3.5" />
-              </Button>
-            </Link>
-            <Link href={`/admin/items/${item.id}/qr`} target="_blank">
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
-                <QrCode className="w-3.5 h-3.5" />
-              </Button>
-            </Link>
-            {item.status === "active" ? (
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-7 w-7 p-0 rounded-lg text-green-600 border-green-200 hover:bg-green-50"
-                onClick={() => setClaimOpen(true)}
-                disabled={loading}
-              >
-                <CheckCircle className="w-3.5 h-3.5" />
-              </Button>
+            {item.status === "pending" ? (
+              <>
+                <Button
+                  size="sm"
+                  className="h-7 px-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-xs"
+                  onClick={handleApprove}
+                  disabled={loading}
+                >
+                  승인
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 rounded-lg text-red-500 border-red-200 hover:bg-red-50 text-xs"
+                  onClick={() => setDeleteOpen(true)}
+                  disabled={loading}
+                >
+                  거절
+                </Button>
+              </>
             ) : (
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-7 w-7 p-0 rounded-lg text-orange-600 border-orange-200 hover:bg-orange-50"
-                onClick={handleRestore}
-                disabled={loading}
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </Button>
+              <>
+                <Link href={`/admin/items/${item.id}/edit`}>
+                  <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
+                <Link href={`/admin/items/${item.id}/qr`} target="_blank">
+                  <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
+                    <QrCode className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
+                {item.status === "active" ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 w-7 p-0 rounded-lg text-green-600 border-green-200 hover:bg-green-50"
+                    onClick={() => setClaimOpen(true)}
+                    disabled={loading}
+                  >
+                    <CheckCircle className="w-3.5 h-3.5" />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 w-7 p-0 rounded-lg text-orange-600 border-orange-200 hover:bg-orange-50"
+                    onClick={handleRestore}
+                    disabled={loading}
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </Button>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 w-7 p-0 rounded-lg text-red-500 border-red-200 hover:bg-red-50"
+                  onClick={() => setDeleteOpen(true)}
+                  disabled={loading}
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </Button>
+              </>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-7 w-7 p-0 rounded-lg text-red-500 border-red-200 hover:bg-red-50"
-              onClick={() => setDeleteOpen(true)}
-              disabled={loading}
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-            </Button>
           </div>
         </td>
       </tr>
@@ -219,7 +259,7 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
   )
 }
 
-export default function AdminItemList({ activeItems, completedItems }: AdminItemListProps) {
+export default function AdminItemList({ pendingItems, activeItems, completedItems }: AdminItemListProps) {
   const router = useRouter()
   const [showCompleted, setShowCompleted] = useState(false)
 
@@ -260,6 +300,20 @@ export default function AdminItemList({ activeItems, completedItems }: AdminItem
 
   return (
     <div className="space-y-4">
+      {/* 승인 대기 */}
+      {pendingItems.length > 0 && (
+        <div className="bg-white rounded-2xl border-2 border-yellow-300 overflow-hidden">
+          <div className="px-5 py-4 border-b border-yellow-100 bg-yellow-50 flex items-center gap-2">
+            <h2 className="font-bold text-gray-900">승인 대기</h2>
+            <span className="bg-yellow-400 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              {pendingItems.length}개
+            </span>
+            <span className="text-xs text-yellow-700 ml-1">공개 신고된 항목 — 승인하면 목록에 표시됩니다</span>
+          </div>
+          <ItemTable items={pendingItems} />
+        </div>
+      )}
+
       {/* 활성 분실물 */}
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">

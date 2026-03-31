@@ -18,6 +18,9 @@ export default function ReportPage() {
             <p className="text-sm text-gray-500">발견한 분실물 정보를 입력해주세요.</p>
           </div>
         </div>
+        <div className="mb-4 px-4 py-3 bg-blue-50 border border-blue-200 rounded-xl text-sm text-blue-700">
+          📋 신고 후 선생님 확인을 거쳐 목록에 공개됩니다. 분실물 사진을 올려주세요.
+        </div>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
           <ItemForm redirectTo="/" />
         </div>

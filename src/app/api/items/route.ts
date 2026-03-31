@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       found_date: found_date || new Date().toISOString().split("T")[0],
       photo_url: photo_url || null,
       photo_path: photo_path || null,
-      status: "active",
+      status: "pending",
     })
     .select()
     .single()

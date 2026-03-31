@@ -71,7 +71,7 @@ export type Database = {
         | "book"
         | "toy"
         | "other"
-      item_status: "active" | "completed"
+      item_status: "active" | "completed" | "pending"
     }
     CompositeTypes: { [_ in never]: never }
   }

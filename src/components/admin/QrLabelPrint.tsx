@@ -29,19 +29,26 @@ export default function QrLabelPrint({ item }: QrLabelPrintProps) {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-8 print:bg-white print:p-0">
-      <div className="mb-4 print:hidden flex gap-3">
-        <button
-          onClick={() => window.print()}
-          className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors"
-        >
-          🖨️ 인쇄
-        </button>
-        <button
-          onClick={() => window.close()}
-          className="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors"
-        >
-          닫기
-        </button>
+      <div className="mb-4 print:hidden space-y-3 w-full max-w-sm">
+        <div className="bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-3 text-sm text-indigo-700">
+          📌 <strong>QR 라벨 사용법</strong><br />
+          이 라벨을 인쇄해서 분실물 또는 보관함에 붙여두세요.<br />
+          학생이 스마트폰으로 QR을 스캔하면 해당 분실물 정보 페이지로 바로 연결됩니다.
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={() => window.print()}
+            className="flex-1 px-6 py-2.5 bg-indigo-700 text-white rounded-xl font-semibold hover:bg-indigo-800 transition-colors"
+          >
+            🖨️ 인쇄
+          </button>
+          <button
+            onClick={() => window.close()}
+            className="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors"
+          >
+            닫기
+          </button>
+        </div>
       </div>
 
       {/* QR 라벨 카드 */}
@@ -51,11 +58,11 @@ export default function QrLabelPrint({ item }: QrLabelPrintProps) {
         style={{ width: 340 }}
       >
         {/* 헤더 */}
-        <div className="bg-blue-700 text-white px-5 py-3 text-center">
+        <div className="bg-indigo-800 text-white px-5 py-3 text-center">
           <p className="text-xs font-semibold tracking-widest opacity-80">
             분실물 보관 라벨
           </p>
-          <p className="text-lg font-bold">우리 학교 분실물 센터</p>
+          <p className="text-lg font-bold">와석초등학교 분실물 보관함</p>
         </div>
 
         {/* 분실물 정보 */}

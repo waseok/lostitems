@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import { MapPin } from "lucide-react"
 import { CATEGORY_EMOJIS, type LostItem } from "@/types"
 
 interface ItemCardProps {
@@ -25,9 +26,7 @@ export default function ItemCard({ item }: ItemCardProps) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-5xl">
-              {CATEGORY_EMOJIS[item.category]}
-            </span>
+            <span className="text-5xl">{CATEGORY_EMOJIS[item.category]}</span>
           </div>
         )}
         {item.status === "completed" && (
@@ -40,10 +39,14 @@ export default function ItemCard({ item }: ItemCardProps) {
       </div>
 
       {/* 정보 영역 */}
-      <div className="p-2.5">
-        <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 text-center">
+      <div className="p-2.5 space-y-1">
+        <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-1">
           {item.name}
         </h3>
+        <div className="flex items-center gap-1 text-xs text-blue-600 font-medium">
+          <MapPin className="w-3 h-3 flex-shrink-0" />
+          <span className="line-clamp-1">{item.location}</span>
+        </div>
       </div>
     </Link>
   )

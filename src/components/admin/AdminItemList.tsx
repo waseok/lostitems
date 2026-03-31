@@ -161,12 +161,12 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
               </>
             ) : (
               <>
-                <Link href={`/admin/items/${item.id}/edit`}>
+                <Link href={`/admin/items/${item.id}/edit`} title="수정">
                   <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
                     <Edit2 className="w-3.5 h-3.5" />
                   </Button>
                 </Link>
-                <Link href={`/admin/items/${item.id}/qr`} target="_blank">
+                <Link href={`/admin/items/${item.id}/qr`} target="_blank" title="QR 라벨 인쇄 (분실물에 붙이는 라벨)">
                   <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
                     <QrCode className="w-3.5 h-3.5" />
                   </Button>
@@ -175,6 +175,7 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
                   <Button
                     variant="outline"
                     size="sm"
+                    title="찾기 완료 처리"
                     className="h-7 w-7 p-0 rounded-lg text-green-600 border-green-200 hover:bg-green-50"
                     onClick={() => setClaimOpen(true)}
                     disabled={loading}
@@ -185,6 +186,7 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
                   <Button
                     variant="outline"
                     size="sm"
+                    title="보관 중으로 되돌리기"
                     className="h-7 w-7 p-0 rounded-lg text-orange-600 border-orange-200 hover:bg-orange-50"
                     onClick={handleRestore}
                     disabled={loading}
@@ -195,6 +197,7 @@ function ItemRow({ item, onRefresh }: { item: LostItem; onRefresh: () => void })
                 <Button
                   variant="outline"
                   size="sm"
+                  title="삭제"
                   className="h-7 w-7 p-0 rounded-lg text-red-500 border-red-200 hover:bg-red-50"
                   onClick={() => setDeleteOpen(true)}
                   disabled={loading}

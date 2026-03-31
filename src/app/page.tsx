@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header"
 import ItemGrid from "@/components/items/ItemGrid"
 import SearchBar from "@/components/search/SearchBar"
 import CompletedSection from "@/components/items/CompletedSection"
+import VisitorCounter from "@/components/VisitorCounter"
 import type { LostItem, ItemCategory } from "@/types"
 
 interface PageProps {
@@ -61,14 +62,14 @@ async function ItemsContent({ searchParams }: PageProps) {
 
 export default function HomePage({ searchParams }: PageProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
-      <main className="max-w-5xl mx-auto px-4 py-6">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-gray-900">분실물 목록</h1>
             <p className="text-sm text-gray-500 mt-0.5">
-              물건을 찾으셨나요? 아래 목록에서 확인해보세요.
+              내 물건을 찾으셨나요? 아래 목록에서 확인해보세요.
             </p>
           </div>
           <Link
@@ -89,14 +90,11 @@ export default function HomePage({ searchParams }: PageProps) {
           fallback={
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-2xl border border-gray-100 overflow-hidden animate-pulse"
-                >
+                <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden animate-pulse">
                   <div className="aspect-square bg-gray-100" />
                   <div className="p-3 space-y-2">
-                    <div className="h-3 bg-gray-100 rounded w-1/2" />
                     <div className="h-4 bg-gray-100 rounded w-3/4" />
+                    <div className="h-3 bg-gray-100 rounded w-1/2" />
                   </div>
                 </div>
               ))}
@@ -106,6 +104,18 @@ export default function HomePage({ searchParams }: PageProps) {
           <ItemsContent searchParams={searchParams} />
         </Suspense>
       </main>
+
+      {/* 하단 푸터 */}
+      <footer className="max-w-5xl w-full mx-auto px-4 pb-4 mt-8 border-t border-gray-200 pt-4">
+        <VisitorCounter />
+        <div className="flex items-center justify-center gap-4 text-xs text-gray-400 mt-1">
+          <Link href="/feedback" className="hover:text-blue-600 transition-colors">
+            💡 페이지 개선 건의
+          </Link>
+          <span>·</span>
+          <span>와석초등학교 분실물 보관함</span>
+        </div>
+      </footer>
     </div>
   )
 }

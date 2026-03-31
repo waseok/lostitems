@@ -9,14 +9,14 @@ export default async function AdminLayout({
   const isAdmin = await checkAdminSession()
 
   if (!isAdmin) {
-    // 로그인 페이지: 헤더 없이 그대로 렌더
     return <>{children}</>
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-indigo-50">
       <AdminHeader />
       <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
     </div>
   )
 }
+

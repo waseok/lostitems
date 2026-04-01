@@ -269,6 +269,7 @@ export default function ItemForm({ item, redirectTo = "/admin" }: ItemFormProps)
         <Select
           value={locationPreset}
           onValueChange={(v) => {
+            if (!v) return
             setLocationPreset(v)
             if (v !== "기타 장소") {
               setValue("location", v, { shouldValidate: true })

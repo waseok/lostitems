@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ShieldCheck } from "lucide-react"
 
 export default function Header() {
@@ -8,7 +9,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="text-2xl">🔍</span>
+          <Image src="/icon.png" alt="와석 보관함" width={36} height={36} className="rounded-full" />
           <div>
             <p className="font-extrabold text-gray-900 leading-tight text-base sm:text-lg">
               와석초 분실물 보관함

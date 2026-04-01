@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import { MapPin } from "lucide-react"
 import { CATEGORY_EMOJIS, type LostItem } from "@/types"
 import { Badge } from "@/components/ui/badge"
 
@@ -13,6 +12,11 @@ export default function ItemCard({ item }: ItemCardProps) {
     (Date.now() - new Date(item.found_date).getTime()) / (1000 * 60 * 60 * 24)
   )
   const isLongTerm = daysSinceFound >= 30
+
+  const formattedDate = new Date(item.found_date).toLocaleDateString("ko-KR", {
+    month: "short",
+    day: "numeric",
+  })
 
   return (
     <Link
@@ -45,14 +49,20 @@ export default function ItemCard({ item }: ItemCardProps) {
             </span>
           </div>
         )}
+        {/* 날짜 배지 */}
+        <div className="absolute bottom-1.5 right-1.5">
+          <span className="bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded-md backdrop-blur-sm">
+            {formattedDate}
+          </span>
+        </div>
       </div>
 
-      <div className="p-2.5 space-y-1">
-        <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-1">
+      <div className="p-3 space-y-1">
+        <h3 className="font-bold text-gray-900 text-sm leading-tight line-clamp-1">
           {item.name}
         </h3>
         <p className="text-xs text-blue-600 font-medium line-clamp-1">
-          보관장소: {item.location}
+          📍 {item.location}
         </p>
       </div>
     </Link>

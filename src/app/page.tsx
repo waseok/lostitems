@@ -64,22 +64,30 @@ export default function HomePage({ searchParams }: PageProps) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
-        <div className="mb-5 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">분실물 목록</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
-              내 물건을 찾으셨나요? 아래 목록에서 확인해보세요.
-            </p>
-          </div>
-          <Link
-            href="/report"
-            className="flex-shrink-0 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
-          >
-            분실물 신고
-          </Link>
-        </div>
 
+      {/* 히어로 배너 */}
+      <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white">
+        <div className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight">
+                분실물 목록
+              </h1>
+              <p className="text-blue-100 text-sm sm:text-base mt-1">
+                내 물건을 찾으셨나요? 아래 목록에서 확인하세요.
+              </p>
+            </div>
+            <Link
+              href="/report"
+              className="flex-shrink-0 px-4 sm:px-5 py-2.5 bg-white text-blue-600 text-sm sm:text-base font-bold rounded-2xl shadow hover:bg-blue-50 transition-colors"
+            >
+              분실물 신고
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-5">
         <div className="mb-5">
           <Suspense>
             <SearchBar />
@@ -105,8 +113,7 @@ export default function HomePage({ searchParams }: PageProps) {
         </Suspense>
       </main>
 
-      {/* 하단 푸터 */}
-      <footer className="max-w-5xl w-full mx-auto px-4 pb-4 mt-8 border-t border-gray-200 pt-4">
+      <footer className="max-w-5xl w-full mx-auto px-4 pb-5 mt-6 border-t border-gray-200 pt-4">
         <VisitorCounter />
         <div className="flex items-center justify-center gap-4 text-xs text-gray-400 mt-1">
           <Link href="/feedback" className="hover:text-blue-600 transition-colors">

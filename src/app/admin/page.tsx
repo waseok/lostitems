@@ -6,6 +6,15 @@ import type { LostItem } from "@/types"
 export default async function AdminPage() {
   const supabase = await createClient()
 
+  // 찾기 완료 후 90일 지난 항목 자동 삭제
+  const ninetyDaysAgo = new Date()
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90)
+  await supabase
+    .from("lost_items")
+    .delete()
+    .eq("status", "completed")
+    .lt("completed_at", ninetyDaysAgo.toISOString())
+
   const { data: allItems } = await supabase
     .from("lost_items")
     .select("*")

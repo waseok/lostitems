@@ -176,6 +176,7 @@ export default function ItemForm({ item, redirectTo = "/admin" }: ItemFormProps)
               id="photo-input"
               type="file"
               accept="image/jpeg,image/png,image/webp"
+              capture="environment"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0]

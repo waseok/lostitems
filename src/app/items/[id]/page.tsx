@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, MapPin, Calendar, User, Tag } from "lucide-react"
+import { ArrowLeft, MapPin, Calendar, User, Tag, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import ClaimDialog from "@/components/items/ClaimDialog"
@@ -42,14 +42,14 @@ export default function ItemDetailPage() {
     <div className="min-h-screen bg-gray-50">
       {/* 뒤로가기 헤더 */}
       <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
-          <button
-            onClick={() => router.back()}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
-          >
+        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-2">
+          <button onClick={() => router.back()} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
             <ArrowLeft className="w-5 h-5 text-gray-700" />
           </button>
           <h1 className="font-bold text-gray-900 flex-1 truncate">{item.name}</h1>
+          <Link href="/" className="p-2 rounded-xl hover:bg-gray-100 transition-colors" title="홈으로">
+            <Home className="w-4 h-4 text-gray-500" />
+          </Link>
         </div>
       </header>
 

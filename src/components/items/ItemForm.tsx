@@ -161,22 +161,47 @@ export default function ItemForm({ item, redirectTo = "/admin" }: ItemFormProps)
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <Label
-              htmlFor="photo-input"
-              className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm hover:bg-gray-50 transition-colors"
-            >
-              {uploading ? (
+            {uploading ? (
+              <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-500">
                 <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Upload className="w-4 h-4" />
-              )}
-              {uploading ? "업로드 중..." : "사진 선택"}
-            </Label>
+                업로드 중...
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Label
+                  htmlFor="photo-camera"
+                  className="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm hover:bg-gray-50 transition-colors"
+                >
+                  <Camera className="w-4 h-4" />
+                  카메라
+                </Label>
+                <Label
+                  htmlFor="photo-gallery"
+                  className="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm hover:bg-gray-50 transition-colors"
+                >
+                  <Upload className="w-4 h-4" />
+                  갤러리
+                </Label>
+              </div>
+            )}
+            {/* 카메라 촬영 */}
             <input
-              id="photo-input"
+              id="photo-camera"
               type="file"
               accept="image/jpeg,image/png,image/webp"
               capture="environment"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) handlePhotoUpload(file)
+                e.target.value = ""
+              }}
+            />
+            {/* 갤러리 선택 */}
+            <input
+              id="photo-gallery"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0]

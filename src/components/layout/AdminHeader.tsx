@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ShieldCheck, Plus, List, LogOut, MessageSquare } from "lucide-react"
+import { ShieldCheck, Plus, Home, LogOut, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function AdminHeader() {
@@ -47,8 +47,8 @@ export default function AdminHeader() {
           </Link>
           <Link href="/">
             <Button variant="outline" size="sm" className="rounded-xl h-8 text-xs gap-1.5 border-indigo-600 text-indigo-200 hover:bg-indigo-800 bg-transparent">
-              <List className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">공개 목록</span>
+              <Home className="w-3.5 h-3.5" />
+              <span>홈</span>
             </Button>
           </Link>
           <button

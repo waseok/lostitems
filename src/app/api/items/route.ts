@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { verifyAdminSession } from "@/lib/auth"
+import { sendNewItemNotification } from "@/lib/notify"
 import type { LostItemInsert } from "@/types"
 
 export async function GET(request: NextRequest) {
@@ -36,6 +38,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const isAdmin = await verifyAdminSession(request)
   const body: LostItemInsert = await request.json()
   const { name, location, finder_name, category, description, found_date, photo_url, photo_path } = body
 
@@ -43,19 +46,20 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "필수 항목을 입력해주세요." }, { status: 400 })
   }
 
+  // 관리자는 바로 active, 일반 사용자는 pending
+  const status = isAdmin ? "active" : "pending"
+
   const supabase = await createClient()
   const { data, error } = await supabase
     .from("lost_items")
     .insert({
-      name,
-      location,
-      finder_name,
+      name, location, finder_name,
       category: category || "other",
       description: description || null,
       found_date: found_date || new Date().toISOString().split("T")[0],
       photo_url: photo_url || null,
       photo_path: photo_path || null,
-      status: "pending",
+      status,
     })
     .select()
     .single()
@@ -63,5 +67,11 @@ export async function POST(request: NextRequest) {
   if (error) {
     return Response.json({ error: error.message }, { status: 500 })
   }
+
+  // 관리자 직접 등록 시 알림 발송
+  if (isAdmin) {
+    sendNewItemNotification(data)
+  }
+
   return Response.json(data, { status: 201 })
 }

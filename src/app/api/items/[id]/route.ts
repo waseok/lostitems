@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { verifyAdminSession } from "@/lib/auth"
+import { sendNewItemNotification } from "@/lib/notify"
 import type { LostItemUpdate } from "@/types"
 
 export async function GET(
@@ -44,6 +45,12 @@ export async function PATCH(
   if (error) {
     return Response.json({ error: error.message }, { status: 500 })
   }
+
+  // pending → active 승인 시 알림 발송
+  if (body.status === "active") {
+    sendNewItemNotification(data)
+  }
+
   return Response.json(data)
 }
 

@@ -40,6 +40,15 @@ export default function ItemForm({ item, redirectTo = "/admin" }: ItemFormProps)
   const router = useRouter()
   const isEdit = !!item
 
+  const LOCATION_PRESETS = ["교무실", "신관 분실물 보관함"]
+  const initialPreset = item?.location && LOCATION_PRESETS.includes(item.location)
+    ? item.location
+    : item?.location ? "기타 장소" : ""
+  const [locationPreset, setLocationPreset] = useState(initialPreset)
+  const [customLocation, setCustomLocation] = useState(
+    item?.location && !LOCATION_PRESETS.includes(item.location) ? item.location : ""
+  )
+
   const [photoUrl, setPhotoUrl] = useState(item?.photo_url || "")
   const [photoPath, setPhotoPath] = useState(item?.photo_path || "")
   const [uploading, setUploading] = useState(false)
@@ -254,15 +263,41 @@ export default function ItemForm({ item, redirectTo = "/admin" }: ItemFormProps)
 
       {/* 보관 장소 */}
       <div>
-        <Label htmlFor="location" className="mb-1.5 block">
+        <Label className="mb-1.5 block">
           보관 장소 <span className="text-red-500">*</span>
         </Label>
-        <Input
-          id="location"
-          placeholder="예: 1학년 교무실, 행정실, 현관 분실물 보관함"
-          {...register("location")}
-          className="rounded-xl"
-        />
+        <Select
+          value={locationPreset}
+          onValueChange={(v) => {
+            setLocationPreset(v)
+            if (v !== "기타 장소") {
+              setValue("location", v, { shouldValidate: true })
+              setCustomLocation("")
+            } else {
+              setValue("location", customLocation, { shouldValidate: false })
+            }
+          }}
+        >
+          <SelectTrigger className="rounded-xl">
+            <SelectValue placeholder="보관 장소를 선택하세요" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="교무실">교무실</SelectItem>
+            <SelectItem value="신관 분실물 보관함">신관 분실물 보관함</SelectItem>
+            <SelectItem value="기타 장소">기타 장소</SelectItem>
+          </SelectContent>
+        </Select>
+        {locationPreset === "기타 장소" && (
+          <Input
+            className="rounded-xl mt-2"
+            placeholder="보관 장소를 직접 입력하세요"
+            value={customLocation}
+            onChange={(e) => {
+              setCustomLocation(e.target.value)
+              setValue("location", e.target.value, { shouldValidate: true })
+            }}
+          />
+        )}
         {errors.location && (
           <p className="text-xs text-red-500 mt-1">{errors.location.message}</p>
         )}

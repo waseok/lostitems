@@ -51,10 +51,9 @@ export default function ItemCard({ item }: ItemCardProps) {
         <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-1">
           {item.name}
         </h3>
-        <div className="flex items-center gap-1 text-xs text-blue-600 font-medium">
-          <MapPin className="w-3 h-3 flex-shrink-0" />
-          <span className="line-clamp-1">{item.location}</span>
-        </div>
+        <p className="text-xs text-blue-600 font-medium line-clamp-1">
+          보관장소: {item.location}
+        </p>
       </div>
     </Link>
   )

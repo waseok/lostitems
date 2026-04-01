@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: "와석초 분실물 보관함",
     description: "와석초등학교 분실물 조회 및 찾기 서비스",
-    siteName: "와석초 분실물 보관함",
   },
   icons: {
     icon: "/icon.png",

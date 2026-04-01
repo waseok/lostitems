@@ -62,47 +62,45 @@ async function ItemsContent({ searchParams }: PageProps) {
 
 export default function HomePage({ searchParams }: PageProps) {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-[#f8f9fb] flex flex-col">
       <Header />
 
-      {/* 히어로 배너 */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white">
-        <div className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight">
-                분실물 목록
-              </h1>
-              <p className="text-blue-100 text-sm sm:text-base mt-1">
-                내 물건을 찾으셨나요? 아래 목록에서 확인하세요.
-              </p>
-            </div>
-            <Link
-              href="/report"
-              className="flex-shrink-0 px-4 sm:px-5 py-2.5 bg-white text-blue-600 text-sm sm:text-base font-bold rounded-2xl shadow hover:bg-blue-50 transition-colors"
-            >
-              분실물 신고
-            </Link>
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 pt-6 pb-10">
+        {/* 페이지 타이틀 + 신고 버튼 */}
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+              분실물 목록
+            </h1>
+            <p className="text-sm text-gray-400 mt-0.5">
+              내 물건을 찾으셨나요? 아래 목록에서 확인하세요.
+            </p>
           </div>
+          <Link
+            href="/report"
+            className="flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm sm:text-base font-semibold rounded-xl shadow-sm transition-colors"
+          >
+            분실물 신고
+          </Link>
         </div>
-      </div>
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-5">
-        <div className="mb-5">
+        {/* 검색 */}
+        <div className="mb-6">
           <Suspense>
             <SearchBar />
           </Suspense>
         </div>
 
+        {/* 아이템 목록 */}
         <Suspense
           fallback={
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden animate-pulse">
                   <div className="aspect-square bg-gray-100" />
                   <div className="p-3 space-y-2">
-                    <div className="h-4 bg-gray-100 rounded w-3/4" />
-                    <div className="h-3 bg-gray-100 rounded w-1/2" />
+                    <div className="h-4 bg-gray-100 rounded-lg w-3/4" />
+                    <div className="h-3 bg-gray-100 rounded-lg w-1/2" />
                   </div>
                 </div>
               ))}
@@ -113,14 +111,16 @@ export default function HomePage({ searchParams }: PageProps) {
         </Suspense>
       </main>
 
-      <footer className="max-w-5xl w-full mx-auto px-4 pb-5 mt-6 border-t border-gray-200 pt-4">
-        <VisitorCounter />
-        <div className="flex items-center justify-center gap-4 text-xs text-gray-400 mt-1">
-          <Link href="/feedback" className="hover:text-blue-600 transition-colors">
-            💡 페이지 개선 건의
-          </Link>
-          <span>·</span>
-          <span>와석초등학교 분실물 보관함</span>
+      <footer className="border-t border-gray-200 bg-white">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col items-center gap-1">
+          <VisitorCounter />
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <Link href="/feedback" className="hover:text-blue-500 transition-colors">
+              💡 개선 건의
+            </Link>
+            <span>·</span>
+            <span>와석초등학교 분실물 보관함</span>
+          </div>
         </div>
       </footer>
     </div>

@@ -40,11 +40,13 @@ async function ItemsContent({ searchParams }: PageProps) {
       .order("completed_at", { ascending: false })
       .limit(50)
 
+    const isSearch = !!(q || category)
+
     return (
       <>
         <ItemGrid
           items={(activeItems as LostItem[]) || []}
-          emptyMessage={q || category ? "검색 결과가 없습니다." : "현재 등록된 분실물이 없습니다."}
+          isSearch={isSearch}
         />
         <CompletedSection items={(completedItems as LostItem[]) || []} />
       </>
@@ -52,9 +54,10 @@ async function ItemsContent({ searchParams }: PageProps) {
   } catch (error) {
     console.error("[ItemsContent] 데이터 로드 오류:", error)
     return (
-      <div className="text-center py-16 text-gray-500">
-        <p className="text-lg font-medium">데이터를 불러올 수 없습니다.</p>
-        <p className="text-sm mt-1">잠시 후 다시 시도해주세요.</p>
+      <div className="text-center py-16">
+        <div className="text-5xl mb-4">😥</div>
+        <p className="text-lg font-medium text-gray-600">데이터를 불러올 수 없습니다.</p>
+        <p className="text-sm mt-1 text-gray-400">잠시 후 다시 시도해주세요.</p>
       </div>
     )
   }
@@ -62,29 +65,29 @@ async function ItemsContent({ searchParams }: PageProps) {
 
 export default function HomePage({ searchParams }: PageProps) {
   return (
-    <div className="min-h-screen bg-[#f8f9fb] flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50/50 to-amber-50/20 flex flex-col">
       <Header />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 pt-6 pb-10">
-        {/* 페이지 타이틀 + 신고 버튼 */}
+        {/* 타이틀 + 신고 버튼 */}
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800 tracking-tight">
               분실물 목록
             </h1>
             <p className="text-sm text-gray-400 mt-0.5">
-              내 물건을 찾으셨나요? 아래 목록에서 확인하세요.
+              내 물건을 찾으셨나요? 아래 목록에서 확인하세요 🔍
             </p>
           </div>
           <Link
             href="/report"
-            className="flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm sm:text-base font-semibold rounded-xl shadow-sm transition-colors"
+            className="touch-target btn-bounce flex-shrink-0 px-5 py-2.5 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-white text-sm sm:text-base font-bold rounded-2xl shadow-md shadow-amber-200 transition-all"
           >
-            분실물 신고
+            📢 분실물 신고
           </Link>
         </div>
 
-        {/* 검색 */}
+        {/* 검색 + 카테고리 필터 */}
         <div className="mb-6">
           <Suspense>
             <SearchBar />
@@ -96,11 +99,11 @@ export default function HomePage({ searchParams }: PageProps) {
           fallback={
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden animate-pulse">
-                  <div className="aspect-square bg-gray-100" />
+                <div key={i} className="bg-white rounded-3xl border border-sky-50 overflow-hidden animate-pulse">
+                  <div className="aspect-square bg-gradient-to-br from-sky-50 to-amber-50/30" />
                   <div className="p-3 space-y-2">
-                    <div className="h-4 bg-gray-100 rounded-lg w-3/4" />
-                    <div className="h-3 bg-gray-100 rounded-lg w-1/2" />
+                    <div className="h-4 bg-sky-50 rounded-lg w-3/4" />
+                    <div className="h-3 bg-sky-50 rounded-lg w-1/2" />
                   </div>
                 </div>
               ))}
@@ -111,11 +114,11 @@ export default function HomePage({ searchParams }: PageProps) {
         </Suspense>
       </main>
 
-      <footer className="border-t border-gray-200 bg-white">
+      <footer className="border-t border-sky-100 bg-white/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col items-center gap-1">
           <VisitorCounter />
           <div className="flex items-center gap-3 text-xs text-gray-400">
-            <Link href="/feedback" className="hover:text-blue-500 transition-colors">
+            <Link href="/feedback" className="hover:text-amber-500 transition-colors">
               💡 개선 건의
             </Link>
             <span>·</span>

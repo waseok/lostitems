@@ -12,6 +12,9 @@ export type Database = {
       lost_items: {
         Row: {
           category: Database["public"]["Enums"]["item_category"]
+          claimer_grade: string | null
+          claimer_class: string | null
+          claimer_name: string | null
           completed_at: string | null
           created_at: string
           description: string | null
@@ -27,6 +30,9 @@ export type Database = {
         }
         Insert: {
           category?: Database["public"]["Enums"]["item_category"]
+          claimer_grade?: string | null
+          claimer_class?: string | null
+          claimer_name?: string | null
           completed_at?: string | null
           created_at?: string
           description?: string | null
@@ -42,6 +48,9 @@ export type Database = {
         }
         Update: {
           category?: Database["public"]["Enums"]["item_category"]
+          claimer_grade?: string | null
+          claimer_class?: string | null
+          claimer_name?: string | null
           completed_at?: string | null
           created_at?: string
           description?: string | null

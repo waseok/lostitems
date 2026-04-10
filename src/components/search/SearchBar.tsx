@@ -3,20 +3,15 @@
 import { useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Search } from "lucide-react"
 import { ALL_CATEGORIES, CATEGORY_LABELS, CATEGORY_EMOJIS } from "@/types"
 import { useDebouncedCallback } from "use-debounce"
+import { cn } from "@/lib/utils"
 
 export default function SearchBar() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const currentCategory = searchParams.get("category") || ""
 
   const updateParams = useCallback(
     (key: string, value: string) => {
@@ -36,34 +31,69 @@ export default function SearchBar() {
     updateParams("q", value)
   }, 300)
 
+  function handleCategory(cat: string) {
+    updateParams("category", cat === currentCategory ? "" : cat)
+  }
+
   return (
-    <div className="flex flex-col sm:flex-row gap-2">
-      <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+    <div className="space-y-3">
+      {/* 검색 입력 */}
+      <div className="relative">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-sky-400 pointer-events-none" />
         <Input
           type="text"
-          placeholder="분실물 이름으로 검색..."
+          placeholder="분실물 이름으로 검색해 보세요..."
           defaultValue={searchParams.get("q") || ""}
           onChange={(e) => handleSearch(e.target.value)}
-          className="pl-9 rounded-xl border-gray-200 bg-white"
+          className="pl-10 h-12 rounded-2xl border-sky-100 bg-white text-base placeholder:text-gray-300 focus-visible:ring-sky-200 focus-visible:border-sky-300"
         />
       </div>
-      <Select
-        value={searchParams.get("category") || "all"}
-        onValueChange={(v) => updateParams("category", !v || v === "all" ? "" : v)}
-      >
-        <SelectTrigger className="w-full sm:w-44 rounded-xl border-gray-200 bg-white">
-          <SelectValue placeholder="카테고리" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">전체 카테고리</SelectItem>
-          {ALL_CATEGORIES.map((cat) => (
-            <SelectItem key={cat} value={cat}>
-              {CATEGORY_EMOJIS[cat]} {CATEGORY_LABELS[cat]}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+
+      {/* 카테고리 칩 (가로 스크롤) */}
+      <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1 -mx-1 px-1">
+        <CategoryChip
+          emoji="🔍"
+          label="전체"
+          active={!currentCategory}
+          onClick={() => handleCategory("")}
+        />
+        {ALL_CATEGORIES.map((cat) => (
+          <CategoryChip
+            key={cat}
+            emoji={CATEGORY_EMOJIS[cat]}
+            label={CATEGORY_LABELS[cat]}
+            active={currentCategory === cat}
+            onClick={() => handleCategory(cat)}
+          />
+        ))}
+      </div>
     </div>
+  )
+}
+
+function CategoryChip({
+  emoji,
+  label,
+  active,
+  onClick,
+}: {
+  emoji: string
+  label: string
+  active: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "touch-target btn-bounce flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-sm font-medium whitespace-nowrap transition-all border",
+        active
+          ? "bg-sky-500 text-white border-sky-500 shadow-md shadow-sky-200"
+          : "bg-white text-gray-600 border-gray-100 hover:border-sky-200 hover:bg-sky-50"
+      )}
+    >
+      <span className="text-base">{emoji}</span>
+      <span>{label}</span>
+    </button>
   )
 }

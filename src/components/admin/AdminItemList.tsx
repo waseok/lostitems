@@ -53,7 +53,8 @@ function StatusDropdown({ item, onRefresh }: { item: LostItem; onRefresh: () => 
   const [loading, setLoading] = useState(false)
   const displayStatus = getDisplayStatus(item)
 
-  async function handleStatusChange(newStatus: string) {
+  async function handleStatusChange(newStatus: string | null) {
+    if (!newStatus) return
     if (newStatus === "claim_approve") {
       setLoading(true)
       try {

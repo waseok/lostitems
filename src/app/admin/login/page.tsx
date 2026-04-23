@@ -1,14 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ShieldCheck, Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react"
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const [password, setPassword] = useState("")
   const [showPw, setShowPw] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -29,8 +27,7 @@ export default function AdminLoginPage() {
         setError(data.error || "비밀번호가 올바르지 않습니다.")
         return
       }
-      router.push("/admin")
-      router.refresh()
+      window.location.href = "/admin"
     } finally {
       setLoading(false)
     }

@@ -70,21 +70,21 @@ export default function HomePage({ searchParams }: PageProps) {
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 pt-6 pb-10">
         {/* 타이틀 + 신고 버튼 */}
-        <div className="flex items-center justify-between mb-5">
-          <div>
+        <div className="mb-5">
+          <div className="flex items-center justify-between gap-3">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800 tracking-tight">
               분실물 목록
             </h1>
-            <p className="text-sm text-gray-400 mt-0.5">
-              내 물건을 찾으셨나요? 아래 목록에서 확인하세요 🔍
-            </p>
+            <Link
+              href="/report"
+              className="touch-target btn-bounce flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-white text-sm sm:text-base font-bold rounded-2xl shadow-md shadow-amber-200 transition-all"
+            >
+              📢 분실물 신고
+            </Link>
           </div>
-          <Link
-            href="/report"
-            className="touch-target btn-bounce flex-shrink-0 px-5 py-2.5 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-white text-sm sm:text-base font-bold rounded-2xl shadow-md shadow-amber-200 transition-all"
-          >
-            📢 분실물 신고
-          </Link>
+          <p className="text-sm text-gray-400 mt-1">
+            내 물건을 찾으셨나요? 아래 목록에서 확인하세요.
+          </p>
         </div>
 
         {/* 검색 + 카테고리 필터 */}

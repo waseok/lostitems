@@ -49,8 +49,8 @@ export default function SearchBar() {
         />
       </div>
 
-      {/* 카테고리 칩 (가로 스크롤) */}
-      <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1 -mx-1 px-1">
+      {/* 카테고리 칩 */}
+      <div className="flex flex-wrap gap-2">
         <CategoryChip
           emoji="🔍"
           label="전체"
